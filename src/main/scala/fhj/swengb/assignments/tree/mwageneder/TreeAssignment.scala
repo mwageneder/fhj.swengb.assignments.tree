@@ -39,8 +39,9 @@ object Graph {
     * @param convert a converter function
     * @return
     */
-  def traverse[A, B](tree: Tree[A])(convert: A => B): Seq[B] = {
-  ???
+  def traverse[A, B](tree: Tree[A])(convert: A => B): Seq[B] = tree match {
+    case Node(value) => Seq(convert(value))
+    case Branch(left,right) => traverse(left)(convert) ++ traverse(right)(convert)
   }
 
   /**
@@ -91,7 +92,7 @@ object MathUtil {
     * @return
     */
   def toRadiants(angle: AngleInDegrees): AngleInRadiants = {
-   angle*Math.PI/180
+    angle.toRadians
   }
 }
 
@@ -111,7 +112,10 @@ object L2D {
     * @return
     */
   def apply(start: Pt2D, angle: AngleInDegrees, length: Double, color: Color): L2D = {
-    ???
+    val a = round(start.x + math.cos(toRadiants(angle))*length)
+    val b = round(start.y + math.sin(toRadiants(angle))*length)
+    val end = Pt2D(a,b)
+    L2D(start,end,color)
   }
 
 

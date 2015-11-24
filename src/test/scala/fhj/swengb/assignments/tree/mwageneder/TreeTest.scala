@@ -20,6 +20,12 @@ class TreeTest {
     Branch(
       Node(L2D(Pt2D(100.0, 0.0), Pt2D(199.985, -1.745), colorMap(0))),
       Node(L2D(Pt2D(100.0, 0.0), Pt2D(199.985, 1.745), colorMap(0)))))
+  /*
+    Branch(
+      Node(L2D(Pt2D(199.985, 1.745), Pt2D(299.985, 1.745), colorMap(1))),
+      Node(L2D(Pt2D(199.985, 1.745), Pt2D(299.924, 5.235), colorMap(1))))
+      */
+
 
 
   @Test def testRound(): Unit = {
