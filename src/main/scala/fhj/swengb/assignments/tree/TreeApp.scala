@@ -12,7 +12,7 @@ import javafx.scene.shape.{Line, StrokeType}
 import javafx.scene.{Parent, Scene}
 import javafx.stage.Stage
 
-import fhj.swengb.assignments.tree.rladstaetter.{Pt2D, L2D, Graph}
+import fhj.swengb.assignments.tree.mwageneder.{Pt2D, L2D, Graph}
 
 import scala.collection.JavaConversions._
 import scala.util.control.NonFatal
