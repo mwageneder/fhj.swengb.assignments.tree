@@ -2,6 +2,7 @@ package fhj.swengb.assignments.tree.mwageneder
 
 import javafx.scene.paint.Color
 
+
 import scala.math.BigDecimal.RoundingMode
 import scala.util.Random
 
@@ -21,42 +22,42 @@ object Graph {
     )
 
   /**
-    * creates a random tree
-    *
-    * @param pt
-    * @return
-    */
+   * creates a random tree
+   *
+   * @param pt
+   * @return
+   */
   def randomTree(pt: Pt2D): Tree[L2D] =
     mkGraph(pt, Random.nextInt(360), Random.nextDouble() * 150, Random.nextInt(7))
 
 
   /**
-    * Given a Tree of L2D's and a function which can convert any L2D to a Line,
-    * you have to traverse the tree (visit all nodes) and create a sequence
-    * of Line's. The ordering of the lines is not important.
-    *
-    * @param tree  a tree which contains L2D instances
-    * @param convert a converter function
-    * @return
-    */
+   * Given a Tree of L2D's and a function which can convert any L2D to a Line,
+   * you have to traverse the tree (visit all nodes) and create a sequence
+   * of Line's. The ordering of the lines is not important.
+   *
+   * @param tree  a tree which contains L2D instances
+   * @param convert a converter function
+   * @return
+   */
   def traverse[A, B](tree: Tree[A])(convert: A => B): Seq[B] = tree match {
     case Node(value) => Seq(convert(value))
     case Branch(left,right) => traverse(left)(convert) ++ traverse(right)(convert)
   }
 
   /**
-    * Creates a tree graph.
-    *
-    * @param start the startpoint (root) of the tree
-    * @param initialAngle initial angle of the tree
-    * @param length the initial length of the tree
-    * @param treeDepth the depth of the tree
-    * @param factor the factor which the length is decreasing for every iteration
-    * @param angle the angle between a branch and the root
-    * @param colorMap color map, by default it is the colormap given in the companion object Graph
-    *
-    * @return a Tree[L2D] which can be traversed by other algorithms
-    */
+   * Creates a tree graph.
+   *
+   * @param start the startpoint (root) of the tree
+   * @param initialAngle initial angle of the tree
+   * @param length the initial length of the tree
+   * @param treeDepth the depth of the tree
+   * @param factor the factor which the length is decreasing for every iteration
+   * @param angle the angle between a branch and the root
+   * @param colorMap color map, by default it is the colormap given in the companion object Graph
+   *
+   * @return a Tree[L2D] which can be traversed by other algorithms
+   */
   def mkGraph(start: Pt2D,
               initialAngle: AngleInDegrees,
               length: Double,
@@ -65,57 +66,58 @@ object Graph {
               angle: Double = 45.0,
               colorMap: Map[Int, Color] = Graph.colorMap): Tree[L2D] = {
     assert(treeDepth <= colorMap.size, s"Treedepth higher than color mappings - bailing out ...")
-    ???
- }
 
+    def constructGraph(start: L2D, acc: Int): Tree[L2D] = acc match {
+      case nothign if treeDepth == 0 => Node(start)
+      case node if treeDepth == acc => Branch(Node(start), Branch(Node(start.left(factor, angle, colorMap(acc - 1))), Node(start.right(factor, angle, colorMap(acc - 1)))))
+      case _ => Branch(Node(start), Branch(constructGraph(start.left(factor, angle, colorMap(acc - 1)), acc + 1), constructGraph(start.right(factor, angle, colorMap(acc - 1)), acc + 1)))
+    }
+
+    constructGraph(L2D(start,initialAngle,length,colorMap(0)),1)
+
+  }
 }
 
 object MathUtil {
 
   /**
-    * rounds the given value to 3 decimal places.
-    *
-    * @param value  a double value
-    * @return
+   * rounds the given value to 3 decimal places.
    *
-   *         %.2f".format(x).toDouble
-    */
-  def round(value: Double): Double = {
-    val x = BigDecimal(value).setScale(3,BigDecimal.RoundingMode.HALF_UP).toDouble
-    return x
-  }
+   * @param value  a double value
+   * @return
+   *
+   * %.2f".format(x).toDouble
+   */
+  def round(value: Double): Double = BigDecimal(value).setScale(3, BigDecimal.RoundingMode.HALF_UP).toDouble
 
   /**
-    * turns an angle given in degrees to a value in radiants.
-    *
-    * @param angle
-    * @return
-    */
-  def toRadiants(angle: AngleInDegrees): AngleInRadiants = {
-    angle.toRadians
-  }
+   * turns an angle given in degrees to a value in radiants.
+   *
+   * @param angle
+   * @return
+   */
+  def toRadiants(angle: AngleInDegrees): AngleInRadiants = angle.toRadians
+
 }
-
-
 object L2D {
 
   import MathUtil._
 
   /**
-    * Given a startpoint, an angle and a length the endpoint of the line
-    * is calculated and finally a L2D class is returned.
-    *
-    * @param start the startpoint
-    * @param angle the angle
-    * @param length the length of the line
-    * @param color the color
-    * @return
-    */
+   * Given a startpoint, an angle and a length the endpoint of the line
+   * is calculated and finally a L2D class is returned.
+   *
+   * @param start the startpoint
+   * @param angle the angle
+   * @param length the length of the line
+   * @param color the color
+   * @return
+   */
   def apply(start: Pt2D, angle: AngleInDegrees, length: Double, color: Color): L2D = {
-    val a = round(start.x + math.cos(toRadiants(angle))*length)
-    val b = round(start.y + math.sin(toRadiants(angle))*length)
+    val a = round(start.x + Math.cos(toRadiants(angle))*length)
+    val b = round(start.y + Math.sin(toRadiants(angle))*length)
     val end = Pt2D(a,b)
-    L2D(start,end,color)
+    return L2D(start:Pt2D,end,color)
   }
 
 
