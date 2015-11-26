@@ -7,7 +7,7 @@
             prefHeight="479.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/8.0.40"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="fhj.swengb.assignments.tree.TreeAppController">
     <top>
-        <Label text="TreeAssignment" BorderPane.alignment="CENTER">
+        <Label text="TreeAssignment Wageneder" BorderPane.alignment="CENTER">
             <font>
                 <Font size="29.0"/>
             </font>
